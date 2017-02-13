@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# chmod +x bin/dockerで実行権限を与える必要あり
+
+case ${1} in
+  start|s)
+    docker-compose up
+  ;;
+
+  stop)
+    docker-compose stop
+  ;;
+
+  setup)
+    docker-compose build
+  ;;
+
+  *)
+    docker-compose exec spring $@
+  ;;
+esac
