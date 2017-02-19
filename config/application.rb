@@ -30,10 +30,26 @@ module Salmon
     config.i18n.default_locale = :ja
     config.i18n.load_path += Dir[Rails.root.join('config','locales','**','*.{rb,yml}').to_s]
 
+    # cookiesを使えるようにする
+    config.action_controller.perform_caching = true
+    config.middleware.use ActionDispatch::Cookies
+
     config.generators do |g|
       g.test_framework :rspec,
           routing_specs: false,
           controller_specs: false
     end
+
+    if ENV['RAILS_ENV'] == 'test'
+      # Rebuild ./schemata/shema.json
+      system('bundle exec prmd combine schemata/yml/* > schemata/schema.json')
+
+      # shemaで定義したレスポンスと乖離があった場合テストが通らなくなる。
+      schema = JSON.parse(File.read("#{Rails.root}/docs/schema/schema.json"))
+      #config.middleware.use Rack::JsonSchema::ErrorHandler
+      #config.middleware.use Rack::JsonSchema::ResponseValidation, schema: schema
+
+    end
+
   end
 end

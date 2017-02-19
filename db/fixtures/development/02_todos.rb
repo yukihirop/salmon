@@ -1,3 +1,5 @@
+Todo.destroy_all
+
 100.times do |i|
   n = i/10 + 1
   Todo.seed(:id) do |s|

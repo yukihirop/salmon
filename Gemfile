@@ -42,6 +42,10 @@ group :development, :test do
 
   gem 'seed-fu', '~> 2.3'
 
+  # JSON-Hyper-Schema
+  gem 'prmd'
+  gem 'rack-json_schema'
+
 end
 
 group :test do
@@ -61,11 +65,14 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
-
 # email_validator
 gem 'email_validator', '~> 1.4.0'
 
 # json genarator
 gem 'active_model_serializers', '~> 0.10.0'
+
+# JWTによるユーザー認証
+gem 'knock'
+# JWTをdecode・encodeするため
+gem 'jwt'
+

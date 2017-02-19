@@ -1,0 +1,71 @@
+---
+"$schema": http://json-schema.org/draft-04/hyper-schema
+title: FIXME - User
+description: FIXME
+stability: prototype
+strictProperties: true
+type:
+- object
+definitions:
+  id:
+    description: unique identifier of user
+    readOnly: true
+    format: integer
+    type:
+    - integer
+  name:
+    description: name of user
+    readOnly: false
+    type:
+    - string
+  email:
+    description: email of user
+    readOnly: false
+    format: email
+    type:
+    - string
+  identity:
+    anyOf:
+    - "$ref": "/schemata/user#/definitions/id"
+links:
+- description: Create a new user.
+  href: "localhost:3000/users"
+  method: POST
+  rel: create
+  schema:
+    properties: {}
+    type:
+    - object
+  title: Create
+- description: Delete an existing user.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}"
+  method: DELETE
+  rel: destroy
+  title: Delete
+- description: Show existing user.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}"
+  method: GET
+  rel: self
+  title: Show
+- description: Index existing users.
+  href: "localhost:3000/api/v1/users"
+  method: GET
+  rel: instances
+  title: Index
+- description: Update an existing user.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}"
+  method: PATCH
+  rel: update
+  schema:
+    properties: {}
+    type:
+    - object
+  title: Update
+properties:
+  id:
+    "$ref": "/schemata/user#/definitions/id"
+  name:
+    "$ref": "/schemata/user#/definitions/name"
+  email:
+    "$ref": "/schemata/user#/definitions/email"
+id: schemata/user

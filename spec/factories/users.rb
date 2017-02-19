@@ -28,4 +28,11 @@ FactoryGirl.define do
     email { generate :email}
   end
 
+  factory :auth_user, class: User do
+    name 'auth_user'
+    password '12345'
+    password_confirmation '12345'
+    email 'auth_user@example.com'
+  end
+
 end
