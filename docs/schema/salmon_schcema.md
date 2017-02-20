@@ -1,9 +1,33 @@
+## Salmon (Todoリスト の REST API)
+
+### Models
+
+* User (has_many  :todos)
+* Todo (belongs_to :user)
+
+### Controllers
+
+* UserTokenController
+* UsersController
+* TodosController
+
+### Authorization
+
+
+* Json Web Tokenによる認証 ([gem 'knock'](https://github.com/nsarno/knock))
+* Basic認証
+
+### Download
+
+* [yukihirop/salmon](https://github.com/yukihirop/salmon)
+
+
 
 ## <a name="resource-todo">Todo</a>
 
 Stability: `prototype`
 
-FIXME
+Todoリストを検索・登録・更新・削除できるAPIです。
 
 ### Attributes
 
@@ -12,6 +36,21 @@ FIXME
 | **id** | *integer* | unique identifier of todo | `42` |
 | **title** | *string* | title of todo | `"example"` |
 | **content** | *string* | content of todo | `"example"` |
+| **done** | *string* | done of todo | `"false"` |
+
+### Rooting
+
+| Verb | URI Pattern | Controller#Action | Authenticate |
+| ------- | ------- | ------- | ------- |
+| **POST** | */api/v1/user_token* | api/v1/user_token#create | `JWT` |
+| **GET** | */api/v1/users/:user_id/todos* | api/v1/todos#index | `JWT` |
+| **POST** | */api/v1/users/:user_id/todos* | api/v1/todos#create | `JWT` |
+| **GET** | */api/v1/users/:user_id/todos/:id* | api/v1/todos#show | `JWT` |
+| **PATCH** | */api/v1/users/:user_id/todos/:id* | api/v1/todos#update | `JWT` |
+| **PUT** | */api/v1/users/:user_id/todos/:id* | api/v1/todos#update | `JWT` |
+| **DELETE** | */api/v1/users/:user_id/todos/:id* | api/v1/todos#destroy | `JWT` |
+
+
 
 ### <a name="link-POST-todo-localhost:3000/api/v1/users/{(%23%2Fdefinitions%2Fuser%2Fdefinitions%2Fidentity)}/todos">Todo Create</a>
 
@@ -25,9 +64,13 @@ POST localhost:3000/api/v1/users/{user_id}/todos
 #### Curl Example
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+
 $ curl -H POST 'Content-Type:application/json' \
       -d '{ "todo" : {"title": "title","content": "content", "done": false} }' \
-      http://localhost:3000/api/v1/users/1/todos -w '\n%{http_code}\n' -s
+      http://localhost:3000/api/v1/users/1/todos -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -59,8 +102,12 @@ DELETE localhost:3000/api/v1/users/{user_id}/todos
 #### Curl Example
 
 ```bash
-curl -X DELETE -H 'Content-Type:application/json' \
-      http://localhost:3000/api/v1/users/1/todos/100 -w '\n%{http_code}\n' -s
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+
+$ curl -X DELETE -H 'Content-Type:application/json' \
+      http://localhost:3000/api/v1/users/1/todos/100 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -92,8 +139,12 @@ GET localhost:3000/api/v1/users/{user_id}/todos/{todo_id}
 #### Curl Example
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+
 $ curl -X GET -H 'Content-Type:application/json' \
-http://localhost:3000/api/v1/users/1/todos/1 -w '\n%{http_code}\n' -s
+http://localhost:3000/api/v1/users/1/todos/1 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -126,8 +177,12 @@ GET localhost:3000/api/v1/users/{user_id}/todos
 #### Curl Example
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+
 $ curl -X GET -H 'Content-Type:application/json' \
-http://localhost:3000/api/v1/users/1/todos -w '\n%{http_code}\n' -s
+http://localhost:3000/api/v1/users/1/todos -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -168,9 +223,13 @@ PATCH localhost:3000/api/v1/users/{user_id}/todos/{todo_id}
 #### Curl Example
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+
 $ curl -X PATCH -H 'Content-Type:application/json' \
       -d '{ "todo" : {"title": "update_title",  "content": "update_content", "done": false} }' \
-      http://localhost:3000/api/v1/users/1/todos/3 -w '\n%{http_code}\n' -s
+      http://localhost:3000/api/v1/users/1/todos/3 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -195,7 +254,7 @@ $ curl -X PATCH -H 'Content-Type:application/json' \
 
 Stability: `prototype`
 
-FIXME
+Todoリストを作成するユーザーの検索・登録・更新・削除ができるAPIです。
 
 ### Attributes
 
@@ -204,6 +263,20 @@ FIXME
 | **id** | *integer* | unique identifier of user | `42` |
 | **name** | *string* | name of user | `"example"` |
 | **email** | *email* | email of user | `"username@example.com"` |
+| **password** | *email* | password of user | `"12345"` |
+| **password_confirmation** | *email* | password_confirmation of user | `"12345"` |
+
+### Rooting
+
+| Verb | URI Pattern | Controller#Action | Authenticate |
+| ------- | ------- | ------- | ------- |
+| **POST** | */api/v1/user_token* | api/v1/user_token#create | `JWT` |
+| **GET** | */api/v1/users* | api/v1/todos#index | `Basic` |
+| **POST** | */api/v1/users* | api/v1/todos#create | `Nothing` |
+| **GET** | */api/v1/users/:id* | api/v1/todos#show | `JWT` |
+| **PATCH** | */api/v1/users/:id* | api/v1/todos#update | `JWT` |
+| **PUT** | */api/v1/users/:id* | api/v1/todos#update | `JWT` |
+| **DELETE** | */api/v1/users/:id* | api/v1/todos#destroy | `JWT` |
 
 ### <a name="link-POST-user-localhost:3000/users">User Create</a>
 
@@ -249,8 +322,12 @@ DELETE localhost:3000/api/v1/users/{user_id}
 #### Curl Example
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+
 $ curl -X DELETE -H 'Content-Type:application/json' \
-      http://localhost:3000/api/v1/users/13 -w '\n%{http_code}\n' -s
+      http://localhost:3000/api/v1/users/13 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -280,6 +357,10 @@ GET localhost:3000/api/v1/users/{user_id}
 #### Curl Example
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+
 $ curl -X GET -H 'Content-Type:application/json' \
 http://localhost:3000/api/v1/users/1 -w '\n%{http_code}\n' -s
 ```
@@ -311,8 +392,9 @@ GET localhost:3000/api/v1/users
 #### Curl Example
 
 ```bash
-$ curl -X GET -H 'Content-Type:application/json' \
-http://localhost:3000/api/v1/users -w '\n%{http_code}\n' -s
+$ curl -X GET -H "Content-Type: application/json" \
+ -u username:password \
+ http://localhost:3000/api/v1/users/ -w '\n%{http_code}\n' -s 
 ```
 
 
@@ -349,9 +431,13 @@ PATCH localhost:3000/api/v1/users/{user_id}
 #### Curl Example
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" \
+ -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+ http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
+ 
 $ curl -X PATCH -H 'Content-Type:application/json' \
       -d '{ "user" : {"name": "update_name",  "email": "update_user@example.com" } }' \
-      http://localhost:3000/api/v1/users/1 -w '\n%{http_code}\n' -s
+      http://localhost:3000/api/v1/users/1 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
