@@ -22,7 +22,7 @@ backend-spec:
 
     - script:
       name: Run RSpec
-      code: bundle exec rspec
+      code: bundle exec rspec spec
 
 backend-request-spec:
   steps:
@@ -37,7 +37,7 @@ backend-request-spec:
 
     - script:
       name: Run request spec
-      code: bin/rake spec:requests
+      code: bundle exec rspec spec/requests
 
 
 backend-model-spec:
@@ -53,4 +53,19 @@ backend-model-spec:
 
     - script:
       name: Run model spec
-      code: bin/rake spec:models
+      code: bundle exec rspec spec/models
+
+backend-routing-spec:
+  steps:
+    - bundle-install
+
+    - rails-database-yml:
+      service: postgresql-docker
+
+    - script:
+      name: Prepare database
+      code: RAILS_ENV=test bin/rake db:schema:load
+
+    - script:
+      name: Run model spec
+      code: bundle exec rspec spec/routing
