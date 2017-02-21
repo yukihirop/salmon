@@ -40,16 +40,16 @@ module Salmon
           controller_specs: false
     end
 
-    if ENV['RAILS_ENV'] == 'test'
-      # Rebuild ./schemata/shema.json
-      system('bundle exec prmd combine schemata/yml/* > schemata/schema.json')
-
-      # shemaで定義したレスポンスと乖離があった場合テストが通らなくなる。
-      schema = JSON.parse(File.read("#{Rails.root}/docs/schema/schema.json"))
-      #config.middleware.use Rack::JsonSchema::ErrorHandler
-      #config.middleware.use Rack::JsonSchema::ResponseValidation, schema: schema
-
-    end
+    # if ENV['RAILS_ENV'] == 'test'
+    #   # Rebuild ./schemata/schema.json
+    #   system('bundle exec prmd combine schemata/schemata/* > schemata/schema.json')
+    #
+    #   # shemaで定義したレスポンスと乖離があった場合テストが通らなくなる。
+    #   schema = JSON.parse(File.read("#{Rails.root}/docs/schema/schema.json"))
+    #   config.middleware.use Rack::JsonSchema::ErrorHandler
+    #   config.middleware.use Rack::JsonSchema::ResponseValidation, schema: schema
+    #
+    # end
 
   end
 end
