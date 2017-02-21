@@ -1,0 +1,75 @@
+---
+"$schema": http://json-schema.org/draft-04/hyper-schema
+title: FIXME - Todo
+description: FIXME
+stability: prototype
+strictProperties: true
+type:
+- object
+definitions:
+  id:
+    description: unique identifier of todo
+    readOnly: true
+    format: integer
+    type:
+    - integer
+  title:
+    description: title of todo
+    readOnly: false
+    type:
+    - string
+  content:
+    description: content of todo
+    readOnly: false
+    type:
+    - string
+  done:
+    description: todo done?
+    readOnly: false
+    type:
+    - boolean
+  identity:
+    anyOf:
+    - "$ref": "/schemata/todo#/definitions/id"
+links:
+- description: Create a new todo.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}/todos"
+  method: POST
+  rel: create
+  schema:
+    properties: {}
+    type:
+    - object
+  title: Create
+- description: Delete an existing todo.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}/todos"
+  method: DELETE
+  rel: destroy
+  title: Delete
+- description: Show existing todo.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}/todos/{(%2Fschemata%2Ftodo%23%2Fdefinitions%2Fidentity)}"
+  method: GET
+  rel: self
+  title: Show
+- description: List existing todos.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}/todos"
+  method: GET
+  rel: instances
+  title: Index
+- description: Update an existing todo.
+  href: "localhost:3000/api/v1/users/{(%2Fschemata%2Fuser%23%2Fdefinitions%2Fidentity)}/todos/{(%2Fschemata%2Ftodo%23%2Fdefinitions%2Fidentity)}"
+  method: PATCH
+  rel: update
+  schema:
+    properties: {}
+    type:
+    - object
+  title: Update
+properties:
+  id:
+    "$ref": "/schemata/todo#/definitions/id"
+  title:
+    "$ref": "/schemata/todo#/definitions/title"
+  content:
+    "$ref": "/schemata/todo#/definitions/content"
+id: schemata/todo
