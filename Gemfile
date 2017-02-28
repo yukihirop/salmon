@@ -46,6 +46,9 @@ group :development, :test do
   gem 'prmd'
   gem 'rack-json_schema'
 
+  #erd
+  gem 'rails-erd'
+
 end
 
 group :test do

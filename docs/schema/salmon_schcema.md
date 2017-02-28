@@ -36,7 +36,7 @@ Todoリストを検索・登録・更新・削除できるAPIです。
 | **id** | *integer* | unique identifier of todo | `42` |
 | **title** | *string* | title of todo | `"example"` |
 | **content** | *string* | content of todo | `"example"` |
-| **done** | *string* | done of todo | `"false"` |
+| **done** | *boolean* | done of todo | `false` |
 
 ### Rooting
 
@@ -64,12 +64,12 @@ POST localhost:3000/api/v1/users/{user_id}/todos
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
 
-$ curl -H POST 'Content-Type:application/json' \
-      -d '{ "todo" : {"title": "title","content": "content", "done": false} }' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+      -X POST -d '{"todo": {"title": "create_title", "content": "create_content", "done": false} }' \
       http://localhost:3000/api/v1/users/1/todos -w '\n%{http_code}\n' -s -b cookie
 ```
 
@@ -82,9 +82,9 @@ $ curl -H POST 'Content-Type:application/json' \
 
 ```json
 {
-    "id":       114,
-    "title":    "title",
-    "content":  "content",
+    "id":       102(任意に変わる),
+    "title":    "create_title",
+    "content":  "create_content",
     "done":     false,
     "user_id":  1
 }
@@ -102,12 +102,12 @@ DELETE localhost:3000/api/v1/users/{user_id}/todos
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
 
 $ curl -X DELETE -H 'Content-Type:application/json' \
-      http://localhost:3000/api/v1/users/1/todos/100 -w '\n%{http_code}\n' -s -b cookie
+      http://localhost:3000/api/v1/users/1/todos/102 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -119,11 +119,11 @@ $ curl -X DELETE -H 'Content-Type:application/json' \
 
 ```json
 {
-    "id":       100,
-    "title":    "title_100",
-    "content":  "content_100",
+    "id":       102,
+    "title":    "create_title",
+    "content":  "create_content",
     "done":     false,
-    "user_id":  10
+    "user_id":  1
 }
 ```
 
@@ -139,8 +139,8 @@ GET localhost:3000/api/v1/users/{user_id}/todos/{todo_id}
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
 
 $ curl -X GET -H 'Content-Type:application/json' \
@@ -177,8 +177,8 @@ GET localhost:3000/api/v1/users/{user_id}/todos
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
 
 $ curl -X GET -H 'Content-Type:application/json' \
@@ -192,7 +192,7 @@ http://localhost:3000/api/v1/users/1/todos -w '\n%{http_code}\n' -s -b cookie
 200
 ```
 
-```json
+```json(最初の２つだけ)
 [
   {
     "id":       1,
@@ -223,13 +223,13 @@ PATCH localhost:3000/api/v1/users/{user_id}/todos/{todo_id}
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
 
 $ curl -X PATCH -H 'Content-Type:application/json' \
       -d '{ "todo" : {"title": "update_title",  "content": "update_content", "done": false} }' \
-      http://localhost:3000/api/v1/users/1/todos/3 -w '\n%{http_code}\n' -s -b cookie
+      http://localhost:3000/api/v1/users/1/todos/1 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -241,7 +241,7 @@ $ curl -X PATCH -H 'Content-Type:application/json' \
 
 ```json
 {
-    "id":       3,
+    "id":       1,
     "title":    "update_title",
     "content":  "update_content",
     "done":     false,
@@ -290,8 +290,8 @@ POST localhost:3000/api/v1/users
 #### Curl Example
 
 ```bash
-$ curl -H POST 'Content-Type:application/json' \
-      -d '{ "user" : {"name": "create_name","password": "12345", "password_confirmation": "12345", "email": "create_name@example.com"} }' \
+$ curl -H "Accept: application/json" -H "Content-Type:application/json" \
+      -X POST -d '{ "user" : {"name": "create_name","password": "12345", "password_confirmation": "12345", "email": "create_name@example.com"} }' \
       http://localhost:3000/api/v1/users -w '\n%{http_code}\n' -s
 ```
 
@@ -304,7 +304,7 @@ $ curl -H POST 'Content-Type:application/json' \
 
 ```json
 {
-    "id":               13,
+    "id":               11,
     "name":             "create_name",
     "email":            "create_name@example.com"
 }
@@ -322,12 +322,12 @@ DELETE localhost:3000/api/v1/users/{user_id}
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
 
-$ curl -X DELETE -H 'Content-Type:application/json' \
-      http://localhost:3000/api/v1/users/13 -w '\n%{http_code}\n' -s -b cookie
+$ curl -X DELETE -H "Accept: application/json" -H "Content-Type:application/json" \
+      http://localhost:3000/api/v1/users/1 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -339,9 +339,9 @@ $ curl -X DELETE -H 'Content-Type:application/json' \
 
 ```json
 {
-    "id":13,
-    "name":"name",
-    "email":"create_name@example.com",
+    "id":1,
+    "name":"user_1",
+    "email":"user_1@example.com",
 }
 ```
 
@@ -357,12 +357,12 @@ GET localhost:3000/api/v1/users/{user_id}
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
 
-$ curl -X GET -H 'Content-Type:application/json' \
-http://localhost:3000/api/v1/users/1 -w '\n%{http_code}\n' -s
+$ curl -X GET -H "Content-Type:application/json" \
+http://localhost:3000/api/v1/users/1 -w '\n%{http_code}\n' -s -b cookie
 ```
 
 
@@ -375,7 +375,7 @@ http://localhost:3000/api/v1/users/1 -w '\n%{http_code}\n' -s
 ```json
 {
     "id":1,
-    "name":"name_1",
+    "name":"user_1",
     "email":"user_1@example.com"
 }
 ```
@@ -392,6 +392,7 @@ GET localhost:3000/api/v1/users
 #### Curl Example
 
 ```bash
+# username: 'salmon'  password: 'salmon' として実行
 $ curl -X GET -H "Content-Type: application/json" \
  -u username:password \
  http://localhost:3000/api/v1/users/ -w '\n%{http_code}\n' -s 
@@ -404,7 +405,7 @@ $ curl -X GET -H "Content-Type: application/json" \
 200
 ```
 
-```json
+```json(最初の２つだけ表示)
 [
  {
     "id":       1,
@@ -431,8 +432,8 @@ PATCH localhost:3000/api/v1/users/{user_id}
 #### Curl Example
 
 ```bash
-$ curl -X POST -H "Content-Type: application/json" \
- -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" \
+ -X POST -d $'{"auth": {"email": "user_1@example.com", "password": "12345"}}' \
  http://localhost:3000/api/v1/user_token -w '\n%{http_code}\n' -s -c cookie
  
 $ curl -X PATCH -H 'Content-Type:application/json' \
@@ -455,5 +456,3 @@ $ curl -X PATCH -H 'Content-Type:application/json' \
 }
 
 ```
-
-

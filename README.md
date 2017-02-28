@@ -40,7 +40,7 @@ Todoリストを検索・登録・更新・削除できるAPIです。
 | **id** | *integer* | unique identifier of todo | `42` |
 | **title** | *string* | title of todo | `"example"` |
 | **content** | *string* | content of todo | `"example"` |
-| **done** | *string* | done of todo | `"false"` |
+| **done** | *boolean* | done of todo | `false` |
 
 ### Rooting
 

@@ -1,5 +1,5 @@
 require 'jwt'
-require "#{Rails.root}/app/controllers/application_controller.rb"
+#require "#{Rails.root}/app/controllers/application_controller.rb"
 
 module Api
   module V1
@@ -18,7 +18,7 @@ module Api
       end
 
       def current_user_hash
-        # 例)  [{"exp"=>1487349607, "sub"=>1}, {"typ"=>"JWT", "alg"=>"HS256"}]
+        # 例)  [{"exp"=>1487349607, "sub"=>1}, {"type"=>"JWT", "alg"=>"HS256"}]
         JWT.decode json_parse_response['jwt'], nil, false
       end
 

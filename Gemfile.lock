@@ -55,6 +55,7 @@ GEM
     byebug (9.0.6)
     case_transform (0.2)
       activesupport
+    choice (0.2.0)
     coderay (1.1.1)
     concurrent-ruby (1.0.4)
     database_rewinder (0.8.0)
@@ -158,6 +159,11 @@ GEM
     rails-dom-testing (2.0.2)
       activesupport (>= 4.2.0, < 6.0)
       nokogiri (~> 1.6)
+    rails-erd (1.5.0)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     railties (5.0.1)
@@ -189,6 +195,7 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    ruby-graphviz (1.2.2)
     seed-fu (2.3.6)
       activerecord (>= 3.1)
       activesupport (>= 3.1)
@@ -244,6 +251,7 @@ DEPENDENCIES
   rack-json_schema
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-controller-testing
+  rails-erd
   rspec-json_expectations
   rspec-rails
   seed-fu (~> 2.3)

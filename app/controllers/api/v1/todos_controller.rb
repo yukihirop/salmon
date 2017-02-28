@@ -1,4 +1,4 @@
-require "#{Rails.root}/app/controllers/application_controller.rb"
+#require "#{Rails.root}/app/controllers/application_controller.rb"
 
 module Api
   module V1
@@ -11,13 +11,10 @@ module Api
       before_action :authenticate_user
       before_action :set_todo, only: [:show, :update, :destroy]
 
-
       # GET /todos
       def index
-        if current_user
-          @todos = current_user.todos
-          render json: @todos
-        end
+        @todos = current_user.todos
+        render json: @todos
       end
 
       # GET /todos/1
@@ -27,42 +24,36 @@ module Api
 
       # POST /todos
       def create
-        if current_user
-          @todo = current_user.todos.build(todo_params)
-          if @todo.save
-            render json: @todo, status: :created
-          else
-            render json: @todo.errors, status: :unprocessable_entity
-          end
+        @todo = current_user.todos.build(todo_params)
+        if @todo.save
+          render json: @todo, status: :created
+        else
+          render json: @todo.errors, status: :unprocessable_entity
         end
       end
 
       # PATCH/PUT /todos/1
       def update
-        if current_user
-          if @todo.update(todo_params)
-            render json: @todo
-          else
-            render json: @todo.errors, status: :unprocessable_entity
-          end
+        if @todo.update(todo_params)
+          render json: @todo
+        else
+          render json: @todo.errors, status: :unprocessable_entity
         end
       end
 
       # DELETE /todos/1
       def destroy
-        if current_user
-          if @todo.destroy
-            render json: @todo
-          else
-            render json: @todo.errors, status: :unprocessable_entity
-          end
+        if @todo.destroy
+          render json: @todo
+        else
+          render json: @todo.errors, status: :unprocessable_entity
         end
       end
 
       private
       # Use callbacks to share common setup or constraints between actions.
       def set_todo
-        @todo = current_user.todos.find(params[:id]) if current_user
+        @todo = current_user.todos.find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

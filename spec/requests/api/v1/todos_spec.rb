@@ -119,7 +119,7 @@ module Api
           before do
             current_auth_user(auth_user)
             authenticate(auth_user)
-            get api_v1_user_todo_path(:current_user, todo),{},@env
+            get api_v1_user_todo_path(auth_user.id ,todo),{},@env
           end
 
           example 'ステータス200(OK)が返ってくること' do
@@ -147,7 +147,7 @@ module Api
           before do
             current_auth_user(auth_user)
             authenticate(auth_user)
-            get api_v1_user_todo_path(:current_user, id:0 ), {}, @env
+            get api_v1_user_todo_path(auth_user.id, id:0 ), {}, @env
           end
 
           context '存在しないTodoを取得する' do
@@ -174,7 +174,7 @@ module Api
               before do
                 current_auth_user(auth_user)
                 authenticate(auth_user)
-                patch api_v1_user_todo_path(:current_user, todo), { todo: attributes_for(:todo, key => val )}, @env
+                patch api_v1_user_todo_path(auth_user.id, todo), { todo: attributes_for(:todo, key => val )}, @env
               end
 
               example 'ステータス200(OK)が返ってくること' do
@@ -212,7 +212,7 @@ module Api
               before do
                 current_auth_user(auth_user)
                 authenticate(auth_user)
-                patch api_v1_user_todo_path(:current_user, todo), {todo: attributes_for(:todo, key => val )}, @env
+                patch api_v1_user_todo_path(auth_user.id, todo), {todo: attributes_for(:todo, key => val )}, @env
               end
 
               example 'ステータス422(処理できないエンティティ)が返ってくること' do
@@ -232,7 +232,7 @@ module Api
             before do
               current_auth_user(auth_user)
               authenticate(auth_user)
-              patch api_v1_user_todo_path(:current_user, id: 0), {todo: attributes_for(:todo, title: 'hogehoge')}, @env
+              patch api_v1_user_todo_path(auth_user.id, id: 0), {todo: attributes_for(:todo, title: 'hogehoge')}, @env
             end
 
 
@@ -254,7 +254,7 @@ module Api
           subject do
             current_auth_user(auth_user)
             authenticate(auth_user)
-            delete api_v1_user_todo_path(:current_user, todo), {}, @env
+            delete api_v1_user_todo_path(auth_user.id, todo), {}, @env
           end
 
           example 'ステータス200(OK)を返すこと' do
@@ -281,7 +281,7 @@ module Api
             before do
               current_auth_user(auth_user)
               authenticate(auth_user)
-              delete api_v1_user_todo_path(:current_user, id: 0),{},@env
+              delete api_v1_user_todo_path(auth_user.id, id: 0),{},@env
             end
 
             example 'ステータス404(not found)が返されること' do
