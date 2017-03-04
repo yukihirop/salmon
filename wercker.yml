@@ -1,9 +1,9 @@
 box: ruby:2.4.0
 
 services:
-  - id: postgres
+  - id: mysql
     env:
-      POSTGRES_ENV_PG_MAJOR: 9.6
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
 
 build:
   steps:
@@ -14,58 +14,16 @@ backend-spec:
     - bundle-install
 
     - rails-database-yml:
-      service: postgresql-docker
+      service: mysql-docker
 
+    # 情報の表示
     - script:
-      name: Prepare database
-      code: RAILS_ENV=test bin/rake db:schema:load
+      name: echo ruby information
+      code: |
+        echo "ruby version $(ruby --version) running"
+        echo "from location $(which ruby)"
+        echo -p "gem list: $(gem list)"
 
     - script:
       name: Run RSpec
       code: bundle exec rspec spec
-
-backend-request-spec:
-  steps:
-    - bundle-install
-
-    - rails-database-yml:
-      service: postgresql-docker
-
-    - script:
-      name: Prepare database
-      code: RAILS_ENV=test bin/rake db:schema:load
-
-    - script:
-      name: Run request spec
-      code: bundle exec rspec spec/requests
-
-
-backend-model-spec:
-  steps:
-    - bundle-install
-
-    - rails-database-yml:
-      service: postgresql-docker
-
-    - script:
-      name: Prepare database
-      code: RAILS_ENV=test bin/rake db:schema:load
-
-    - script:
-      name: Run model spec
-      code: bundle exec rspec spec/models
-
-backend-routing-spec:
-  steps:
-    - bundle-install
-
-    - rails-database-yml:
-      service: postgresql-docker
-
-    - script:
-      name: Prepare database
-      code: RAILS_ENV=test bin/rake db:schema:load
-
-    - script:
-      name: Run model spec
-      code: bundle exec rspec spec/routing
