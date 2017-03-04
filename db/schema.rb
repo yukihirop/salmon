@@ -12,10 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170209125543) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "todos", force: :cascade do |t|
+  create_table "todos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title",      null: false
     t.string   "content"
     t.boolean  "done",       null: false
@@ -25,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170209125543) do
     t.index ["user_id"], name: "index_todos_on_user_id", using: :btree
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",            null: false
     t.string   "password_digest", null: false
     t.string   "email",           null: false
