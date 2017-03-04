@@ -29,6 +29,11 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+
+  #MySQLの時
+  config.use_transactional_examples = false
+
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -69,7 +74,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    DatabaseRewinder.clean
+    DatabaseRewinder.clean multiple:false
   end
 
   config.before(:all) do

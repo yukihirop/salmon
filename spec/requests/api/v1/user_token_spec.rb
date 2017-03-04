@@ -26,7 +26,7 @@ module Api
             end
 
             example 'JWTをdecodeしてもエラーにならない' do
-              expect{ JWT.decode json['jwt'], nil, false }.to_not raise_error(JWT::DecodeError)
+              expect{ JWT.decode json['jwt'], nil, false }.to_not raise_error
             end
           end
         end
