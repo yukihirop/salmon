@@ -24,7 +24,7 @@ default: &default
 development:
   <<: *default
   username: root
-  password: Te108186
+  password:
   database: salmon_development
 
   # The specified database role being used to connect to postgres.
@@ -60,7 +60,7 @@ development:
 test:
   <<: *default
   username: root
-  password: Te108186
+  password:
   database: salmon_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -83,6 +83,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: salmon_production
-
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: salmon-todo-api_production
+  username: salmon-todo-api
+  password: <%= ENV['SALMON-TODO-API_DATABASE_PASSWORD'] %>
