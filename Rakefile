@@ -3,6 +3,4 @@
 
 require_relative 'config/application'
 
-if Rails.env.development?
-  Rails.application.load_tasks
-end
+Rails.application.load_tasks
