@@ -5,7 +5,6 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use postgresql as the database for Active Record
 # gem 'pg', '~> 0.18'
-gem 'mysql2'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -23,6 +22,7 @@ gem 'puma', '~> 3.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'mysql2'
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 2.8.0'
